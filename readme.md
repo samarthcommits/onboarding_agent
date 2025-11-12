@@ -80,7 +80,7 @@ This launches the FastAPI server at http://localhost:8000
 
 2️⃣ Open the Frontend
 
-Simply open the index.html file in your browser.
+- Simply open the index.html file in your browser.
 
 3️⃣ Start Using
 
