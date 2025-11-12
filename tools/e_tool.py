@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from langchain.agents import create_react_agent, AgentExecutor, AgentType
 from langchain.tools import Tool
 subject = "Email Subject"
-body = "Hi from jyoti"
+# body = "Hi from jyoti"
 sender = os.environ['DOMAIN_EMAIL']
 # recipients = ["aashishsamarth11@gmail.com"]
 password = os.environ['DOMAIN_PASSWORD']

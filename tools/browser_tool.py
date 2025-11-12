@@ -12,7 +12,7 @@ def open_link(link: str):
     path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     # options.add_experimental_option('excludeSwitches', ['enable-logging'])
     chrome_options = Options()
-    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9014")
+    # chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9014")
     chrome_options.add_argument('--enable-logging')
     chrome_options.add_argument('--v=1')
     capabilities = {'loggingPrefs': {'browser': 'ALL'}}
