@@ -26,20 +26,21 @@ This project combines **automated web scraping**, **retrieval-augmented conversa
 
 ## 🧩 Project Structure
 
+```bash
 project/
 │
 ├── src/
-│ ├── test_bot2.py # Defines the onboarding agent and tools
-│ ├── scraper.py # Web scraper that collects data from a given domain
-│ ├── tools/
-│ │ ├── ret_tool.py # Retrieves data from scraped info
-│ │ ├── e_tool.py # Handles email-related automation
-│ │ └── b_tool.py # Redirects or opens relevant URLs
+│   ├── test_bot2.py              # Defines the onboarding agent and tools
+│   ├── scraper.py                # Web scraper that collects data from a given domain
+│   ├── tools/
+│   │   ├── ret_tool.py           # Retrieves data from scraped info
+│   │   ├── e_tool.py             # Handles email-related automation
+│   │   └── b_tool.py             # Redirects or opens relevant URLs
 │
-├── main.py # FastAPI backend for scrape and chat endpoints
-├── index.html # Simple frontend UI for domain input and chat
-├── README.md # Project documentation
-
+├── main.py                       # FastAPI backend for scrape and chat endpoints
+├── index.html                    # Simple frontend UI for domain input and chat
+├── README.md                     # Project documentation
+```
 
 ---
 
