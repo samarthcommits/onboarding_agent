@@ -1,25 +1,13 @@
-
-from fastapi import FastAPI
-# from .test_bot2 import agent_executor
-from pydantic import BaseModel
+import os
+import asyncio
+import json
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-import requests
+from pydantic import BaseModel
+from src.scraper import FullPageScraper
+from src.test_bot2 import agent_executor, process_input
 
-# class Item(BaseModel):
-#     message: str
 app = FastAPI()
-
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8000/get_response",
-    "http://localhost:8000",
-    "https://www.pal.tech/careers",
-    "http://localhost:8000/docs",
-    "http://www.pal.tech/careers"
-    "https://www.pal.tech"
-]
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,28 +17,51 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.get("/")
-# async def root():
-#     # message = agent_executor.invoke
-#     return {"message": "Hello World"}
+# Memory storage for scraped data per domain
+SCRAPED_DATA = {}
 
-# @app.post("/get_response")
-# async def check(message:str):
-#     print(message)
-#     response = await agent_executor.ainvoke({'input': message})
-#     return {'response':response}
+class URLBody(BaseModel):
+    domain: str
 
-class RequestBody(BaseModel):
+class MessageBody(BaseModel):
+    domain: str
     message: str
 
+def run_scraper(domain: str):
+    """Run the scraper in the background."""
+    print(f"🕷️ Starting scrape for {domain}...")
+    scraper = FullPageScraper(f"https://{domain}")
+    scraper.start()
+    scraper.close()
+    print(f"✅ Finished scraping {domain}")
+
+@app.post("/scrape")
+async def scrape_website(data: URLBody, background_tasks: BackgroundTasks):
+    """Endpoint to start scraping a domain."""
+    domain = data.domain.strip().replace("https://", "").replace("http://", "")
+    background_tasks.add_task(run_scraper, domain)
+    return {"message": f"Scraping for {domain} has started in the background."}
+
 @app.post("/get_response")
-async def check(data: RequestBody):
-    print(data.message)
-    res = requests.post(json={"text":data.message}, url='http://localhost:8001/query')
-    # requests.post()
+async def get_response(data: MessageBody):
+    """Chat endpoint where agent uses scraped data via tools."""
+    domain = data.domain.strip()
+    user_message = data.message
+
+    # Load scraped data if available
+    scraped_file = "scraped_data_from_pal.json"
+    if os.path.exists(scraped_file):
+        with open(scraped_file, "r", encoding="utf-8") as f:
+            SCRAPED_DATA[domain] = json.load(f)
+
+    # Inject scraped data into ret_tool context (if needed)
+    # This assumes ret_tool internally knows where to look for scraped JSON
+    print(f"🤖 Processing message for {domain}: {user_message}")
+
     try:
-        # response = await agent_executor.ainvoke({'input': data.message})
-        response = 'We are setting things up for you 😃'
-    except:
-        response = 'try again please'
-    return {'response': response, 'path': res.json()['path']}
+        response = await process_input(user_message)
+    except Exception as e:
+        print("Error:", e)
+        response = "⚙️ Setting things up for you... please try again shortly."
+
+    return {"response": response}

@@ -1,20 +1,21 @@
 import smtplib
+import os
 from email.mime.text import MIMEText
 from langchain.agents import create_react_agent, AgentExecutor, AgentType
 from langchain.tools import Tool
 subject = "Email Subject"
 body = "Hi from jyoti"
-sender = "ccheckk12345@gmail.com"
+sender = os.environ['DOMAIN_EMAIL']
 # recipients = ["aashishsamarth11@gmail.com"]
-password = "sdns avlf wgqz kngi"
+password = os.environ['DOMAIN_PASSWORD']
 
 
 def send_email(recipient):
     subject = "Email Subject"
     body = "Hi from palbot"
-    sender = "ccheckk12345@gmail.com"
+    sender = os.environ['DOMAIN_EMAIL']
     # recipients = "aashishsamarth11@gmail.com"
-    password = "sdns avlf wgqz kngi"
+    password = os.environ['DOMAIN_PASSWORD']
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = sender

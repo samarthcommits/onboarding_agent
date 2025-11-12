@@ -25,7 +25,7 @@ def open_link(link: str):
     driver.quit()
     return f'opened {link} successfully'
 
-from langchain.agents import create_react_agent, AgentExecutor, AgentType
+from langchain.agents import AgentType
 from langchain.tools import Tool
 
 b_tool = Tool(

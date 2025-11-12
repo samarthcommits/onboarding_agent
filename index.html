@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Onboarding Agent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9fafb;
+            padding: 40px;
+            max-width: 700px;
+            margin: auto;
+        }
+        input, button, textarea {
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        #chat-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .user { color: #007bff; }
+        .bot { color: #333; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h2>🚀 Onboarding Agent</h2>
+
+    <label>Enter your company domain:</label>
+    <input type="text" id="domain" placeholder="e.g. pal.tech" />
+
+    <button onclick="scrapeWebsite()">Start Onboarding</button>
+
+    <div id="status"></div>
+
+    <div id="chat-box"></div>
+
+    <textarea id="userInput" placeholder="Type your message..." rows="3"></textarea>
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        let currentDomain = "";
+
+        async function scrapeWebsite() {
+            currentDomain = document.getElementById("domain").value.trim();
+            if (!currentDomain) return alert("Please enter a domain!");
+            document.getElementById("status").innerText = "⏳ Scraping started...";
+
+            const res = await fetch("http://localhost:8000/scrape", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ domain: currentDomain })
+            });
+
+            const data = await res.json();
+            document.getElementById("status").innerText = "✅ " + data.message;
+        }
+
+        async function sendMessage() {
+            const msg = document.getElementById("userInput").value.trim();
+            if (!msg) return;
+
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<div><b class="user">You:</b> ${msg}</div>`;
+            document.getElementById("userInput").value = "";
+
+            const res = await fetch("http://localhost:8000/get_response", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ domain: currentDomain, message: msg })
+            });
+
+            const data = await res.json();
+            chatBox.innerHTML += `<div><b class="bot">Agent:</b> ${data.response}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

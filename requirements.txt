@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+langchain
+langchain-core
+langchain-chroma
+langchain-google-genai
+langchain-ollama
+langchain-cohere
+nemoguardrails
+chromadb
+cohere
+selenium
+webdriver-manager
+nest_asyncio
+requests
