@@ -23,16 +23,6 @@ This project combines **automated web scraping**, **retrieval-augmented conversa
 - ⚙️ **FastAPI Backend + Simple Frontend**  
   Includes a lightweight REST API backend and a minimal HTML interface for chat interaction.
 
----
-
-# 🤖 Onboarding Agent
-
-The **Onboarding Agent** is an AI-powered assistant that automatically learns about a company's website and interacts with users to provide onboarding, guidance, and follow-ups — all powered by LangChain, Gemini, and NeMo Guardrails.
-
-This project combines **automated web scraping**, **retrieval-augmented conversations**, and **multi-tool agent orchestration** into one pipeline.
-
----
-
 ## 🚀 Features
 
 - 🌐 **Domain-Based Onboarding**  
