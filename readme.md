@@ -23,24 +23,6 @@ This project combines **automated web scraping**, **retrieval-augmented conversa
 - ⚙️ **FastAPI Backend + Simple Frontend**  
   Includes a lightweight REST API backend and a minimal HTML interface for chat interaction.
 
-## 🚀 Features
-
-- 🌐 **Domain-Based Onboarding**  
-  Users can input their company’s website URL, which is automatically scraped for information.
-
-- 🧠 **Intelligent Agent with Tools**  
-  The agent can:
-  - Retrieve insights from scraped website data (`ret_tool`)
-  - Send follow-up emails (`e_tool`)
-  - Redirect or open company pages dynamically using Selenium (`b_tool`)
-
-- 🦾 **LLM + Guardrails Integration**  
-  Uses **LangChain agents** with **Gemini 2.0 Flash** or **Ollama Gemma** for reasoning, combined with **NeMo Guardrails** for safe and policy-aligned responses.
-
-- ⚙️ **FastAPI Backend + Simple Frontend**  
-  Includes a lightweight REST API backend and a minimal HTML interface for chat interaction.
-
----
 
 ## 🧩 Project Structure
 
