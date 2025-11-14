@@ -133,7 +133,7 @@ def summarise_ret(query):
         res.append(result)
     # k = count_tokens(docs)
     # logger.info(f'retrieved docs with {k} tokens')
-    # global token_log
+    global token_log
     # token_log+=count_tokens(docs)
     # logger.info(f'number of tokens in all: {token_log}')
     
