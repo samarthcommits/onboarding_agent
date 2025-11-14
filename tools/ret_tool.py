@@ -77,32 +77,29 @@ def get_chunk_documents():
 def create_retriever():
     #this method is responsible for creating the vector store and a retriever.
     embeddings = SentenceTransformerEmbeddings(model_name="Alibaba-NLP/gte-base-en-v1.5",model_kwargs={"trust_remote_code": True})
-    if os.path.exists('C:/Users/samarth.srivastava/new_scrap/org_scraper_new/')==False:
-        print('in here')
+    if os.path.exists('./chroma_langchain_db1')==False:
         doc = get_chunk_documents()
         uuids = [str(uuid4()) for _ in range(len(doc))]
         vector_store = Chroma(
             collection_name="example_collection",
             embedding_function=embeddings,
-            persist_directory="C:/Users/samarth.srivastava/new_scrap/org_scraper_new/chroma_langchain_db3",  # Where to save data locally, remove if not necessary
+            persist_directory="./chroma_langchain_db1",  # Where to save data locally, remove if not necessary
         )
         
         vector_store.add_documents(documents=doc, ids=uuids)
     else:
-        print("true")
-        vector_store = Chroma(persist_directory='vectorstore', embedding_function=embeddings, collection_name='example1')
-    
-    print('done with embeddings, now reranking')
-    ret = vector_store.as_retriever(search_kwargs={"k": 6})
-    # llm = Cohere(temperature=0)
+        vector_store = Chroma(persist_directory='./chroma_langchain_db1', embedding_function=embeddings, collection_name='example_collection')
+        print('chroma db used')
+    # ret = vector_store.as_retriever(search_kwargs={"k": 6})
+    from experiment.src.splade_custom import Retriever
+    ret = Retriever()
+    llm = Cohere(temperature=0)
     compressor = CohereRerank(model="rerank-english-v3.0", top_n=2)
-    
     compression_retriever = ContextualCompressionRetriever(
     base_compressor=compressor, base_retriever=ret
     )
-    print('retriever made')
-    
     return compression_retriever
+
 
 
 from summarizer import Summarizer,TransformerSummarizer
