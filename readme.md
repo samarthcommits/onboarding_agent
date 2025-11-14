@@ -76,7 +76,7 @@ DOMAIN_PASSWORD = "password_to_the_email"
 uvicorn main:app --reload
 ```
 
-This launches the FastAPI server at http://localhost:8000
+This launches the FastAPI server at http://localhost:8001
 
 2️⃣ Open the Frontend
 
